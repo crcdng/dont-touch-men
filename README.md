@@ -20,9 +20,11 @@ In the current COVID-19 pandemic, a few rules have been communicated to reduce i
 
 Over the last couple of days, during videoconferences and on social media I have seen people constantly touching their faces. It happens subconsciously. Even if you tell people not to do it they will have their hand in their face a minute later. And so will you. This way the virus gets on a mucous membrane of yours and enters your body. 
 
+The goal is to prototype a minimal helper that gives you a warning if your hand comes close to your face.
+
 To be clear. Do NOT do this: https://www.youtube.com/watch?v=IgR6uaVqWsQ
 
-The goal is to prototype a minimal helper that gives you a warning if your hand comes close to your face.
+Also, do not **touch** your face in order to test this app.
 
 Uses the following libraries / frameworks / tools
 
