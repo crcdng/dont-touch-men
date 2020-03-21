@@ -2,7 +2,7 @@
 
 Alert people before they are touching MEN (Mouth Eyes Nose).
 
-CURRENT STATUS: WORK IN PROGRESS, TESTING NEEDED
+CURRENT STATUS: HACK / WORK IN PROGRESS
 
 https://i3games.github.io/dont-touch-men/
 
@@ -24,8 +24,9 @@ To be clear. Do NOT do this: https://www.youtube.com/watch?v=IgR6uaVqWsQ
 
 The goal is to prototype a minimal helper that gives you a warning if your hand comes close to your face.
 
-Uses the following libraries / frameworks
+Uses the following libraries / frameworks / tools
 
 * p5.js: https://github.com/processing/p5.js
 * ml5.js: https://github.com/ml5js/ml5-library
 * bodypix: https://github.com/tensorflow/tfjs-models/tree/master/body-pix
+* brfx: https://www.bfxr.net/
