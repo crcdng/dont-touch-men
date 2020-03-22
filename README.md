@@ -27,12 +27,16 @@ To be clear. Do NOT do this: https://www.youtube.com/watch?v=IgR6uaVqWsQ
 Also, do not **touch** your face in order to test this app.
 
 ### How to use
+
 1. You need a webcam showing your head and shoulders 
 2. Download / clone this repo
 3. Run index.html through a webserver, e.g. https://developer.mozilla.org/en-US/docs/Learn/Common_questions/set_up_a_local_testing_server  
 
 
 ### WORK IN PROGRESS
+
+![](assets/screen.jpg)
+
 I am seeing: 
 
 * False Positives especially when turning my face.
