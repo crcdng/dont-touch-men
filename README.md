@@ -2,7 +2,7 @@
 
 Alert people before they are touching MEN (Mouth Eyes Nose).
 
-CURRENT STATUS: HACK / WORK IN PROGRESS
+### CURRENT STATUS: HACK / WORK IN PROGRESS
 
 https://i3games.github.io/dont-touch-men/
 
@@ -20,11 +20,24 @@ In the current COVID-19 pandemic, a few rules have been communicated to reduce i
 
 Over the last couple of days, during videoconferences and on social media I have seen people constantly touching their faces. It happens subconsciously. Even if you tell people not to do it they will have their hand in their face a minute later. And so will you. This way the virus gets on a mucous membrane of yours and enters your body. 
 
-The goal is to prototype a minimal helper that gives you a warning if your hand comes close to your face.
+The goal is to prototype a tool that nudges you into better behaviour by warning you when your hand comes close to your face.
 
 To be clear. Do NOT do this: https://www.youtube.com/watch?v=IgR6uaVqWsQ
 
 Also, do not **touch** your face in order to test this app.
+
+### How to use
+1. You need a webcam showing your head and shoulders 
+2. Download / clone this repo
+3. Run index.html through a webserver, e.g. https://developer.mozilla.org/en-US/docs/Learn/Common_questions/set_up_a_local_testing_server  
+
+
+### WORK IN PROGRESS
+I am seeing: 
+
+* False Positives especially when turning my face.
+* False Negatives especially briefly after an alarm. 
+* Delays through poor performance. 
 
 Uses the following libraries / frameworks / tools
 

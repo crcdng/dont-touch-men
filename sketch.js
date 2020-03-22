@@ -38,6 +38,8 @@ function setup() {
     createSpan('Segmentation Threshold').parent(uiDiv);
     sliderThreshold = createSlider(0, 1, 0.5, 0).parent(uiDiv);
     checkboxSegmentation = createCheckbox('Show Segmentation', true).parent(uiDiv);
+    createP('<a href="https://github.com/i3games/dont-touch-men" target="_blank">https://github.com/i3games/dont-touch-men</a>').parent(uiDiv);
+    createP('by <a href="https://twitter.com/crcdng" target="_blank">@crcdng</a>').parent(uiDiv);
 
     video = createCapture(VIDEO);
     video.size(width, height);
