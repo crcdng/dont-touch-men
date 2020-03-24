@@ -1,4 +1,5 @@
 # dont-touch-men
+![](assets/dtm.jpg)
 
 Alert people before they are touching MEN (Mouth Eyes Nose).
 
@@ -55,7 +56,7 @@ I am seeing:
 To do:
 
 1. Improve the reliability and performance of the app. There is a new body-pix model which is not in ml5.js yet. Also the crude detection has room for improvement.
-2. Test on different mobile devices, lighting conditions. 
+2. Test on different mobile devices, in lighting conditions, with different people. 
 3. Build standalone apps
 
 Uses the following libraries / frameworks / tools

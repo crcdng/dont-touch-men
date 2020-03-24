@@ -131,6 +131,9 @@ function setup() {
 
   uiDiv = createDiv();
   createP("Alerts you if you touch MEN Mouth Eyes Nose").parent(uiDiv);
+  createP("Make sure your head and shoulders are visible.").parent(uiDiv);
+  createP("Do not actually <b>touch</b> your face in order to test this app.").parent(uiDiv);
+
   createSpan("Performance").parent(uiDiv);
   radioPerformance = createRadio().parent(uiDiv);
   radioPerformance.option("low");
@@ -147,8 +150,8 @@ function setup() {
   checkboxSegmentation = createCheckbox("Show Segmentation", true).parent(
     uiDiv
   );
-  createP(
-    '<a href="https://github.com/i3games/dont-touch-men" target="_blank">https://github.com/i3games/dont-touch-men</a>'
+  
+  createP('More info: <a href="https://github.com/i3games/dont-touch-men" target="_blank">https://github.com/i3games/dont-touch-men</a>'
   ).parent(uiDiv);
   createP(
     'by <a href="https://twitter.com/crcdng" target="_blank">@crcdng</a>'
