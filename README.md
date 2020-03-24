@@ -49,3 +49,8 @@ Uses the following libraries / frameworks / tools
 * ml5.js: https://github.com/ml5js/ml5-library
 * bodypix: https://github.com/tensorflow/tfjs-models/tree/master/body-pix
 * brfx: https://www.bfxr.net/
+
+Similar tools 
+
+* Lars Gleim: https://lgleim.github.io/handsOffMyFace/, code: https://github.com/lgleim/handsOffMyFace
+* Mike Bodge, Brian Moore, and Isaac Blankensmith: https://donottouchyourface.com
