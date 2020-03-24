@@ -14,7 +14,7 @@ In the current COVID-19 pandemic, a few rules have been communicated to reduce i
 3. **Don’t touch MEN: Mouth Eyes Nose**.
 4. Wash hands with soap.
 5. Wash surfaces with soap water. 
-6. Wear face masks. Yes, they help.
+6. Wear face masks if you have them and if supply is guaranteed for health and frontline workers. Yes, they help.
 7. Protect elderly people and those wo are at risk.
 8. Don't hoard.
 9. Be excellent to each other.
@@ -55,9 +55,10 @@ I am seeing:
 
 To do:
 
-1. Improve the reliability and performance of the app. There is a new body-pix model which is not in ml5.js yet. Also the crude detection has room for improvement.
+1. Improve the reliability and performance of the app. Also the crude detection has room for improvement.
 2. Test on different mobile devices, in lighting conditions, with different people. 
 3. Build standalone apps
+4. Finally, reimplement in pure JS/Tensorflow with body-pix 2.0 https://github.com/tensorflow/tfjs-models/tree/master/body-pix
 
 Uses the following libraries / frameworks / tools
 
