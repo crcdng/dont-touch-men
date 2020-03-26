@@ -112,6 +112,7 @@ let bodypix,
   checkboxSound,
   checkboxVisual,
   segmentation,
+  envelope,
   radioPerformance,
   sliderThreshold,
   sound,
@@ -123,7 +124,6 @@ let clicked = false;
 
 function preload() {
   bodypix = ml5.bodyPix(options);
-  sound = loadSound("assets/powerup.mp3");
 }
 
 function setup() {
@@ -157,6 +157,12 @@ function setup() {
     'by <a href="https://twitter.com/crcdng" target="_blank">@crcdng</a>'
   ).parent(uiDiv);
 
+  sound = new p5.SawOsc();
+  envelope = new p5.Env();
+  envelope.setADSR(0.001, 0.6, 0.1, 0.5);
+  envelope.setRange(1, 0);
+  sound.freq(189);
+
   video = createCapture(VIDEO);
   video.size(width, height);
   video.hide();
@@ -182,7 +188,8 @@ function alarm() {
     background(255, 0, 0);
   }
   if (checkboxSound.checked()) {
-    sound.play();
+    sound.start();
+    envelope.play(sound, 0, 0.1);
   }
   console.log("alarm");
 }

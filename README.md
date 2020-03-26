@@ -5,7 +5,7 @@ Alert people before they are touching MEN (Mouth Eyes Nose).
 
 ### CURRENT STATUS: HACK / WORK IN PROGRESS
 
-https://i3games.github.io/dont-touch-men/
+Demo: https://i3games.github.io/dont-touch-men/
 
 In the current COVID-19 pandemic, a few rules have been communicated to reduce infections. 
 
@@ -71,3 +71,4 @@ Similar tools
 
 * Lars Gleim: https://lgleim.github.io/handsOffMyFace/, code: https://github.com/lgleim/handsOffMyFace (also thanks for the scientific paper link)
 * Mike Bodge, Brian Moore, and Isaac Blankensmith: https://donottouchyourface.com
+* Holly Hook: https://play.google.com/store/apps/details?id=com.hollyhook.beepon, code: https://github.com/hollyhook/beepon (Android)
