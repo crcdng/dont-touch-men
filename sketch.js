@@ -1,5 +1,6 @@
-const handThreshold = 200; // minimum amount of pixels of type hand visible
-const faceThreshold = 100; // minimum amount of pixels of type face visible
+const DEBUG = true; // switch console.log
+const handPixelThreshold = 200; // minimum amount of pixels of type hand visible
+const facePixelThreshold = 100; // minimum amount of pixels of type face visible
 const radius = 3; // radius in pixels around the hand pixel sampled to look for face pixels
 
 const options = {
@@ -108,18 +109,17 @@ const options = {
 };
 
 let bodypix,
-  checkboxSegmentation,
+  checkboxSegmentationView,
   checkboxSound,
   checkboxVisual,
   segmentation,
   envelope,
   radioPerformance,
-  sliderThreshold,
+  sliderSegmentationThreshold,
   sound,
   uiDiv,
   video;
-let hand = 0,
-  face = 0;
+let facePixels = 0, handPixels = 0, soundFrequency = 189;
 let clicked = false;
 
 function preload() {
@@ -127,41 +127,21 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(320, 240);
-
-  uiDiv = createDiv();
-  createP("Alerts you if you touch MEN Mouth Eyes Nose").parent(uiDiv);
-  createP("Make sure your head and shoulders are visible.").parent(uiDiv);
-  createP("Do not actually <b>touch</b> your face in order to test this app.").parent(uiDiv);
-
-  createSpan("Performance").parent(uiDiv);
-  radioPerformance = createRadio().parent(uiDiv);
-  radioPerformance.option("low");
-  radioPerformance.option("medium");
-  radioPerformance.selected("medium");
-  radioPerformance.option("high");
-  radioPerformance.style("width", "300px");
-  radioPerformance.changed(switchPerformace);
-  createSpan("Alarm").parent(uiDiv);
-  checkboxVisual = createCheckbox("Visual", true).parent(uiDiv);
-  checkboxSound = createCheckbox("Sound", true).parent(uiDiv);
-  createSpan("Segmentation Threshold").parent(uiDiv);
-  sliderThreshold = createSlider(0, 1, 0.5, 0).parent(uiDiv);
-  checkboxSegmentation = createCheckbox("Show Segmentation", true).parent(
-    uiDiv
-  );
-  
-  createP('More info: <a href="https://github.com/i3games/dont-touch-men" target="_blank">https://github.com/i3games/dont-touch-men</a>'
-  ).parent(uiDiv);
-  createP(
-    'by <a href="https://twitter.com/crcdng" target="_blank">@crcdng</a>'
-  ).parent(uiDiv);
+  createCanvas(320, 240).parent('canvas-area');
+  radioPerformance = selectAll('.performance');
+  for (let i = 0; i < radioPerformance.length; i++) {
+    radioPerformance[i].changed(switchPerformance);
+  }
+  checkboxVisual = select('#visualalarm');
+  checkboxSound = select('#soundalarm');  
+  sliderSegmentationThreshold = select('#segmentationthreshold'); 
+  checkboxSegmentationView = select('#segmentationview');
 
   sound = new p5.SawOsc();
   envelope = new p5.Env();
   envelope.setADSR(0.001, 0.6, 0.1, 0.5);
   envelope.setRange(1, 0);
-  sound.freq(189);
+  sound.freq(soundFrequency);
 
   video = createCapture(VIDEO);
   video.size(width, height);
@@ -169,7 +149,7 @@ function setup() {
   bodypix.segmentWithParts(video, gotResults, options);
 }
 
-function switchPerformace(value) {
+function switchPerformance(value) {
   const val = value.target.value;
   if (val === "low") {
     options.multiplier = 0.25;
@@ -191,12 +171,13 @@ function alarm() {
     sound.start();
     envelope.play(sound, 0, 0.1);
   }
-  console.log("alarm");
+  if (DEBUG) { console.log("alarm"); }
 }
 
 function touchStarted() {
   clicked = true;
 }
+
 function mousePressed() {
   clicked = true;
 }
@@ -229,10 +210,10 @@ function gotResults(err, segmentation) {
   h = 480;
   w = 640;
 
-  hand = 0;
-  face = 0;
+  handPixels = 0;
+  facePixels = 0;
 
-  if (checkboxSegmentation.checked()) {
+  if (checkboxSegmentationView.checked()) {
     image(segmentation.partMask, 0, 0, width, height);
   } else {
     background(255, 255, 255);
@@ -240,9 +221,9 @@ function gotResults(err, segmentation) {
 
   for (const [i, v] of current.entries()) {
     if (isHand(v)) {
-      hand++;
+      handPixels++;
 
-      if (hand > handThreshold && face > faceThreshold) {
+      if (handPixels > handPixelThreshold && facePixels > facePixelThreshold) {
         // minimum amount of hand / face pixels
         // crude but quick
         let left = current[i - radius];
@@ -270,7 +251,7 @@ function gotResults(err, segmentation) {
         }
       }
     } else if (isFace(v)) {
-      face++;
+      facePixels++;
     }
   }
   // image(video, 0, 0, width, height);
@@ -282,6 +263,6 @@ function gotResults(err, segmentation) {
     text("tap/click twice", width / 2, height / 2);
   }
 
-  options.segmentationThreshold = sliderThreshold.value();
+  options.segmentationThreshold = sliderSegmentationThreshold.value();
   bodypix.segmentWithParts(video, gotResults, options);
 }

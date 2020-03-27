@@ -55,10 +55,11 @@ I am seeing:
 
 To do:
 
-1. Improve the reliability and performance of the app. Also the crude detection has room for improvement.
-2. Test on different mobile devices, in lighting conditions, with different people. 
-3. Build standalone apps
-4. Finally, reimplement in pure JS/Tensorflow with body-pix 2.0 https://github.com/tensorflow/tfjs-models/tree/master/body-pix
+1. Improve the reliability and performance of the app. Also the crude detection has room for improvement
+2. Make it run on mobile devices 
+3. Test on different devices, in different conditions, with different people 
+4. Build standalone apps
+5. Reimplement in pure JS/Tensorflow with body-pix 2.0 https://github.com/tensorflow/tfjs-models/tree/master/body-pix
 
 Uses the following libraries / frameworks / tools
 

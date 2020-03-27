@@ -2,14 +2,87 @@
 <html>
   <head>
     <title>don't touch MEN</title>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="css/materialize.min.css" />
     <script src="lib/p5.min.js"></script>
     <script src="lib/p5.sound.min.js"></script>
     <script src="lib/ml5.min.js"></script>
   </head>
 
   <body>
-    <script src="sketch.js"></script>
+    <div class="section">
+      <div class="row">
+        <div class="col l5 m5 s12" id="canvas-area"></div>
+      </div>
+      <div class="row">
+        <div class="col l5 m5 s12">
+          Alerts you if you touch <b>MEN</b> Mouth Eyes Nose.<br />
+          Make sure your head and shoulders are visible.<br />
+          Do not actually <b>touch</b> your face in order to test this app.
+        </div>
+      </div>
+      <div class="row">
+        <div class="col l5 m5 s12">
+          Performance<br />
+          <label>
+            <input class="performance with-gap" name="performance" value="low" type="radio" />
+            <span>low</span>
+          </label>
+          <label>
+            <input class="performance with-gap" name="performance" value="medium" type="radio" checked />
+            <span>medium</span>
+          </label>
+          <label>
+            <input class="performance with-gap" name="performance" value="high" type="radio" />
+            <span>high</span>
+          </label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col l5 m5 s12">
+          Alarm<br />    
+            <label>
+              <input id="visualalarm" class="filled-in" type="checkbox" checked />
+              <span>Visual</span>
+            </label><br />
+            <label>
+              <input id="soundalarm" class="filled-in" type="checkbox" checked />
+              <span>Sound</span>
+            </label>
+        </div>
+      </div>
+      <!-- <div class="row">
+        <div class="col s5">
+      
+        </div>
+      </div> -->
+      <div class="row">
+        <div class="col l5 m5 s12">
+          Segmentation Threshold 
+          <span class="range-field">
+            <input type="range" id="segmentationthreshold" min="0" max="1" value="0.5" step="0.1" />
+          </span>
+          Show Segmentation 
+          <label>
+            <div class="switch">
+              <label>
+                Off
+                <input id="segmentationview" type="checkbox" checked>
+                <span class="lever"></span>
+                On
+              </label>
+            </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col l5 m5 s12">
+        Info: <a href="https://github.com/i3games/dont-touch-men" target="_blank">github.com/i3games/dont-touch-men</a><br />
+        by <a href="https://twitter.com/crcdng" target="_blank">@crcdng</a><br />
+            </div>
+        </div>
+      </div>
+      <script src="sketch.js"></script>
   </body>
 </html>
