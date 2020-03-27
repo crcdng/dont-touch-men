@@ -1,3 +1,5 @@
+p5.disableFriendlyErrors = true;
+
 const DEBUG = true; // switch console.log
 const handPixelThreshold = 200; // minimum amount of pixels of type hand visible
 const facePixelThreshold = 100; // minimum amount of pixels of type face visible
@@ -112,15 +114,15 @@ let bodypix,
   checkboxSegmentationView,
   checkboxSound,
   checkboxVisual,
-  segmentation,
   envelope,
+  performance,
+  segmentation,
   radioPerformance,
   sliderSegmentationThreshold,
   sound,
   uiDiv,
   video;
 let facePixels = 0, handPixels = 0, soundFrequency = 189;
-let clicked = false;
 
 function preload() {
   bodypix = ml5.bodyPix(options);
@@ -130,7 +132,9 @@ function setup() {
   createCanvas(320, 240).parent('canvas-area');
   radioPerformance = selectAll('.performance');
   for (let i = 0; i < radioPerformance.length; i++) {
-    radioPerformance[i].changed(switchPerformance);
+    let p = radioPerformance[i];
+    if (p.elt.hasAttribute('checked')) { performance = p.elt.value; }
+    p.changed(switchPerformance);
   }
   checkboxVisual = select('#visualalarm');
   checkboxSound = select('#soundalarm');  
@@ -150,14 +154,14 @@ function setup() {
 }
 
 function switchPerformance(value) {
-  const val = value.target.value;
-  if (val === "low") {
+  performance = value.target.value;
+  if (performance === "low") {
     options.multiplier = 0.25;
     options.outputStride = 32;
-  } else if (val === "medium") {
+  } else if (performance === "medium") {
     options.multiplier = 0.5;
     options.outputStride = 16;
-  } else if (val === "high") {
+  } else if (performance === "high") {
     options.multiplier = 0.75;
     options.outputStride = 0;
   }
@@ -172,14 +176,6 @@ function alarm() {
     envelope.play(sound, 0, 0.1);
   }
   if (DEBUG) { console.log("alarm"); }
-}
-
-function touchStarted() {
-  clicked = true;
-}
-
-function mousePressed() {
-  clicked = true;
 }
 
 function gotResults(err, segmentation) {
@@ -206,7 +202,7 @@ function gotResults(err, segmentation) {
 
   // console.log(segmentation.segmentation.data);
   // TODO appears to be a BUG, segmentation data array seems to be fixed length 640 * 480 should be of size w * h ?
-  // console.log(w, h, current.length, clicked);
+  // console.log(w, h, current.length);
   h = 480;
   w = 640;
 
@@ -222,6 +218,17 @@ function gotResults(err, segmentation) {
   for (const [i, v] of current.entries()) {
     if (isHand(v)) {
       handPixels++;
+
+      let modulo;
+      if (performance === "low") {
+        modulo = 20;
+      } else if (performance === "medium") {
+        modulo = 5;
+      } else if (performance === "high") {
+        modulo = 2;
+      }
+      
+      if (! (i % modulo === 0)) { continue; }
 
       if (handPixels > handPixelThreshold && facePixels > facePixelThreshold) {
         // minimum amount of hand / face pixels
@@ -253,14 +260,6 @@ function gotResults(err, segmentation) {
     } else if (isFace(v)) {
       facePixels++;
     }
-  }
-  // image(video, 0, 0, width, height);
-
-  if (!clicked) {
-    // might need up to 2 clicks to start, focus the canvas and user interaction
-    textAlign(CENTER, CENTER);
-    textSize(width / 8);
-    text("tap/click twice", width / 2, height / 2);
   }
 
   options.segmentationThreshold = sliderSegmentationThreshold.value();
