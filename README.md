@@ -26,40 +26,41 @@ Science has numbers:
 
 Kwok, Yen Lee Angela, Jan Gralton, and Mary-Louise McLaws. 2015. ‘Face Touching: A Frequent Habit That Has Implications for Hand Hygiene’. American Journal of Infection Control 43 (2): 112–14. https://doi.org/10.1016/j.ajic.2014.10.015.
 
-This article gives some hint and describes challenges for behavioral change: 
+This article gives some hints and describes challenges for behavioral change: 
 https://foreignaffairs.co.nz/2020/03/20/how-to-stop-touching-your-face-to-minimize-spread-of-coronavirus-and-other-germs-133683/
 
-I assume, this app, if improved, could help to nudge you into better behaviour by warning you when your hand comes close to your face.
+I assume that this app, if improved, could help to nudge you into better behaviour by warning you when your hand comes close to your face.
 
 To be clear. Do NOT do this: https://www.youtube.com/watch?v=IgR6uaVqWsQ
 
 Also, do not **touch** your face in order to test this app.
 
 ### How to use
-**dont-touch-men** runs in the browser. Any modern web browser should do. 
+**Don’t touch MEN** runs in modern web browsers such as Firefox or Chrome. 
 
 1. You need a webcam showing your head and shoulders 
 2. Download / clone this repo
 3. Run index.html through a webserver, e.g. https://developer.mozilla.org/en-US/docs/Learn/Common_questions/set_up_a_local_testing_server  
-
+4. To work with mobile devices at all, it must be served over an `https` connection.
 
 ### WORK IN PROGRESS
-
 ![](assets/screen.jpg)
 
-I am seeing: 
+How it works: **Don’t touch MEN** uses the Tensorflow bodypix model. This is a trained machine learning model that takes an image, detects different body parts such as head and hands and returns an array with different values for each part. I take a sample around hand values and check if it is a head value. If so, the alarm is triggered.
+
+Problems that I am currently seeing: 
 
 * False Positives especially when turning my face.
 * False Negatives especially briefly after an alarm. 
 * Delays through poor performance. 
+* Does not work on iPad/Safari 
 
 To do:
 
 1. Improve the reliability and performance of the app. Also the crude detection has room for improvement
-2. Make it run on mobile devices 
-3. Test on different devices, in different conditions, with different people 
-4. Build standalone apps
-5. Reimplement in pure JS/Tensorflow with body-pix 2.0 https://github.com/tensorflow/tfjs-models/tree/master/body-pix
+2. Test and improve on different devices, in different conditions, with different people 
+3. Build standalone apps
+4. Reimplement in pure JS/Tensorflow with body-pix 2.0 https://github.com/tensorflow/tfjs-models/tree/master/body-pix
 
 Uses the following libraries / frameworks / tools
 
