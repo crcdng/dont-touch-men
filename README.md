@@ -37,7 +37,7 @@ To be clear. Do NOT do this: https://www.youtube.com/watch?v=IgR6uaVqWsQ
 Also, do not **touch** your face in order to test this app.
 
 ### How to use
-**Don’t touch MEN** runs in modern web browsers such as Firefox or Chrome. 
+**Don’t touch MEN** runs in modern web browsers (Firefox and Chrome). Based on my testing I recommend Chrome. 
 
 1. You need a webcam showing your head and shoulders 
 2. Download / clone this repo
