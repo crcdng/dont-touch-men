@@ -7,9 +7,9 @@ const radius = 5; // radius in pixels around the hand pixel sampled to look for 
 
 const options = {
   architecture: "MobileNetV1",
-  multiplier: 0.75, // 0 - 1, defaults to 0.75, higher is slower / more accurate
+  multiplier: 0.5, // 0 - 1, defaults to 0.75, higher is slower / more accurate
   outputStride: 16, // 8, 16, or 32, default is 16, higher is faster / less accurate
-  segmentationThreshold: 0.5, // 0 - 1, defaults to 0.5
+  segmentationThreshold: 0.25, // 0 - 1
   palette: {
     leftFace: {
       id: 0,
@@ -124,6 +124,7 @@ let bodypix,
   video;
 let facePixels = 0,
   handPixels = 0,
+  skipFactor = 5,
   soundFrequency = 189;
 
 function preload() {
@@ -147,6 +148,7 @@ function setup() {
   checkboxVisual = select("#visualalarm");
   checkboxSound = select("#soundalarm");
   sliderSegmentationThreshold = select("#segmentationthreshold");
+  sliderSegmentationThreshold.value(options.segmentationThreshold);
   checkboxSegmentationView = select("#segmentationview");
 
   sound = new p5.SawOsc();
@@ -165,12 +167,15 @@ function switchPerformance(value) {
   if (performance === "low") {
     options.multiplier = 0.25;
     options.outputStride = 32;
+    skipFactor = 10;            // skip 9 out of 10 pixels
   } else if (performance === "medium") {
     options.multiplier = 0.5;
     options.outputStride = 16;
+    skipFactor = 5;
   } else if (performance === "high") {
     options.multiplier = 0.75;
     options.outputStride = 0;
+    skipFactor = 2;
   }
 }
 
@@ -206,7 +211,6 @@ function gotResults(err, segmentation) {
     return pixel == leftFaceId || pixel == rightFaceId;
   }
 
-  const h = segmentation.segmentation.height;
   const w = segmentation.segmentation.width;
   const current = segmentation.segmentation.data;
 
@@ -222,24 +226,14 @@ function gotResults(err, segmentation) {
     if (isHand(v)) {
       handPixels++;
 
-      let modulo;
-      if (performance === "low") {
-        modulo = 10;
-      } else if (performance === "medium") {
-        modulo = 5;
-      } else if (performance === "high") {
-        modulo = 2;
-      }
-
       if (
-        !(i % modulo === 0) ||
+        !(i % skipFactor === 0) ||
         handPixels < handPixelThreshold ||
         facePixels < facePixelThreshold
       ) {
         continue;
       }
 
-      // minimum amount of hand / face pixels
       // crude but quick
       let left = current[i - radius];
       let right = current[i + radius];
