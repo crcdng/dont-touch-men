@@ -2,8 +2,8 @@ p5.disableFriendlyErrors = true;
 
 const DEBUG = true; // switch console.log
 const handPixelThreshold = 20; // minimum amount of pixels of type hand visible
-const facePixelThreshold = 10; // minimum amount of pixels of type face visible
-const radius = 3; // radius in pixels around the hand pixel sampled to look for face pixels
+const facePixelThreshold = 200; // minimum amount of pixels of type face visible
+const radius = 5; // radius in pixels around the hand pixel sampled to look for face pixels
 
 const options = {
   architecture: "MobileNetV1",
@@ -97,7 +97,7 @@ const options = {
     },
     rightHand: {
       id: 21,
-      color: [0, 243, 88]
+      color: [255, 0, 0]
     },
     rightLowerArmFront: {
       id: 22,
@@ -105,7 +105,7 @@ const options = {
     },
     leftHand: {
       id: 23,
-      color: [0, 243, 88]
+      color: [255, 0, 0]
     }
   }
 };
@@ -122,24 +122,28 @@ let bodypix,
   sound,
   uiDiv,
   video;
-let facePixels = 0, handPixels = 0, soundFrequency = 189;
+let facePixels = 0,
+  handPixels = 0,
+  soundFrequency = 189;
 
 function preload() {
   bodypix = ml5.bodyPix(options);
 }
 
 function setup() {
-  createCanvas(320, 240).parent('canvas-area');
-  radioPerformance = selectAll('.performance');
+  createCanvas(320, 240).parent("canvas-area");
+  radioPerformance = selectAll(".performance");
   for (let i = 0; i < radioPerformance.length; i++) {
     let p = radioPerformance[i];
-    if (p.elt.hasAttribute('checked')) { performance = p.elt.value; }
+    if (p.elt.hasAttribute("checked")) {
+      performance = p.elt.value;
+    }
     p.changed(switchPerformance);
   }
-  checkboxVisual = select('#visualalarm');
-  checkboxSound = select('#soundalarm');  
-  sliderSegmentationThreshold = select('#segmentationthreshold'); 
-  checkboxSegmentationView = select('#segmentationview');
+  checkboxVisual = select("#visualalarm");
+  checkboxSound = select("#soundalarm");
+  sliderSegmentationThreshold = select("#segmentationthreshold");
+  checkboxSegmentationView = select("#segmentationview");
 
   sound = new p5.SawOsc();
   envelope = new p5.Env();
@@ -175,7 +179,9 @@ function alarm() {
     sound.start();
     envelope.play(sound, 0, 0.1);
   }
-  if (DEBUG) { console.log("alarm"); }
+  if (DEBUG) {
+    console.log("alarm");
+  }
 }
 
 function gotResults(err, segmentation) {
@@ -192,12 +198,13 @@ function gotResults(err, segmentation) {
   function isHand(pixel) {
     return pixel == leftHandId || pixel == rightHandId;
   }
+
   function isFace(pixel) {
     return pixel == leftFaceId || pixel == rightFaceId;
   }
 
-  let h = segmentation.segmentation.height;
-  let w = segmentation.segmentation.width;
+  const h = segmentation.segmentation.height;
+  const w = segmentation.segmentation.width;
   const current = segmentation.segmentation.data;
 
   if (checkboxSegmentationView.checked()) {
@@ -214,41 +221,45 @@ function gotResults(err, segmentation) {
 
       let modulo;
       if (performance === "low") {
-        modulo = 20;
+        modulo = 10;
       } else if (performance === "medium") {
         modulo = 5;
       } else if (performance === "high") {
         modulo = 2;
       }
-      
-      if (! (i % modulo === 0)) { continue; }
 
-      if (handPixels > handPixelThreshold && facePixels > facePixelThreshold) {
-        // minimum amount of hand / face pixels
-        // crude but quick
-        let left = current[i - radius];
-        let right = current[i + radius];
-        let top = current[i - radius * w]; // TODO, see BUG above
-        let bottom = current[i + radius * w]; // TODO, see BUG above
+      if (
+        !(i % modulo === 0) ||
+        handPixels < handPixelThreshold ||
+        facePixels < facePixelThreshold
+      ) {
+        continue;
+      }
 
-        let topleft = current[i - radius * w - radius];
-        let topright = current[i - radius * w + radius];
-        let bottomleft = current[i + radius * w - radius];
-        let bottomright = current[i + radius * w + radius];
+      // minimum amount of hand / face pixels
+      // crude but quick
+      let left = current[i - radius];
+      let right = current[i + radius];
+      let top = current[i - radius * w]; // TODO, see BUG above
+      let bottom = current[i + radius * w]; // TODO, see BUG above
 
-        if (
-          (left && isFace(left)) ||
-          (right && isFace(right)) ||
-          (top && isFace(top)) ||
-          (bottom && isFace(bottom)) ||
-          (topleft && isFace(topleft)) ||
-          (topright && isFace(topright)) ||
-          (bottomleft && isFace(bottomleft)) ||
-          (bottomright && isFace(bottomright))
-        ) {
-          alarm();
-          break;
-        }
+      let topleft = current[i - radius * w - radius];
+      let topright = current[i - radius * w + radius];
+      let bottomleft = current[i + radius * w - radius];
+      let bottomright = current[i + radius * w + radius];
+
+      if (
+        (left && isFace(left)) ||
+        (right && isFace(right)) ||
+        (top && isFace(top)) ||
+        (bottom && isFace(bottom)) ||
+        (topleft && isFace(topleft)) ||
+        (topright && isFace(topright)) ||
+        (bottomleft && isFace(bottomleft)) ||
+        (bottomright && isFace(bottomright))
+      ) {
+        alarm();
+        break;
       }
     } else if (isFace(v)) {
       facePixels++;
