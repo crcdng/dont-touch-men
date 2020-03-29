@@ -127,7 +127,11 @@ let facePixels = 0,
   soundFrequency = 189;
 
 function preload() {
-  bodypix = ml5.bodyPix(options);
+  bodypix = ml5.bodyPix(video, modelReady, options);
+}
+
+function modelReady () {
+  bodypix.segmentWithParts(video, options, gotResults);
 }
 
 function setup() {
@@ -154,7 +158,6 @@ function setup() {
   video = createCapture(VIDEO);
   video.size(width, height);
   video.hide();
-  bodypix.segmentWithParts(video, gotResults, options);
 }
 
 function switchPerformance(value) {
@@ -267,5 +270,5 @@ function gotResults(err, segmentation) {
   }
 
   options.segmentationThreshold = sliderSegmentationThreshold.value();
-  bodypix.segmentWithParts(video, gotResults, options);
+  bodypix.segmentWithParts(video, options, gotResults);
 }
