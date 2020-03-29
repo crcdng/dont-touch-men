@@ -1,8 +1,8 @@
 p5.disableFriendlyErrors = true;
 
 const DEBUG = true; // switch console.log
-const handPixelThreshold = 200; // minimum amount of pixels of type hand visible
-const facePixelThreshold = 100; // minimum amount of pixels of type face visible
+const handPixelThreshold = 20; // minimum amount of pixels of type hand visible
+const facePixelThreshold = 10; // minimum amount of pixels of type face visible
 const radius = 3; // radius in pixels around the hand pixel sampled to look for face pixels
 
 const options = {
@@ -189,25 +189,16 @@ function gotResults(err, segmentation) {
   const leftFaceId = segmentation.bodyParts.leftFace.id;
   const rightFaceId = segmentation.bodyParts.rightFace.id;
 
-  function isFace(pixel) {
+  function isHand(pixel) {
     return pixel == leftHandId || pixel == rightHandId;
   }
-  function isHand(pixel) {
+  function isFace(pixel) {
     return pixel == leftFaceId || pixel == rightFaceId;
   }
 
-  let h = segmentation.raw.partMask.height;
-  let w = segmentation.raw.partMask.width;
+  let h = segmentation.segmentation.height;
+  let w = segmentation.segmentation.width;
   const current = segmentation.segmentation.data;
-
-  // console.log(segmentation.segmentation.data);
-  // TODO appears to be a BUG, segmentation data array seems to be fixed length 640 * 480 should be of size w * h ?
-  // console.log(w, h, current.length);
-  h = 480;
-  w = 640;
-
-  handPixels = 0;
-  facePixels = 0;
 
   if (checkboxSegmentationView.checked()) {
     image(segmentation.partMask, 0, 0, width, height);
@@ -215,6 +206,8 @@ function gotResults(err, segmentation) {
     background(255, 255, 255);
   }
 
+  handPixels = 0;
+  facePixels = 0;
   for (const [i, v] of current.entries()) {
     if (isHand(v)) {
       handPixels++;
