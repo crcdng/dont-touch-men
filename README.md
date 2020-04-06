@@ -9,6 +9,8 @@ I have started working on an alternative branch **v2** with no dependencies exce
 
 `git checkout v2`
 
+I am now focusing on the v2 branch. 
+
 ### CURRENT STATUS: HACK / WORK IN PROGRESS
 
 Demo: https://i3games.github.io/dont-touch-men/
@@ -73,7 +75,6 @@ Uses the following libraries / frameworks / tools
 * p5.js: https://github.com/processing/p5.js
 * ml5.js: https://github.com/ml5js/ml5-library
 * body-pix model: https://github.com/tensorflow/tfjs-models/tree/master/body-pix
-* brfx: https://www.bfxr.net/
 
 Similar tools 
 
