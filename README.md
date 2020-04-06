@@ -4,6 +4,11 @@
 
 Alert people before they are touching MEN (Mouth Eyes Nose).
 
+### NEW
+To see the impact on performance and accuracy I am starting an alternative branch **v2** with no dependencies except for [TensorFlow.js](https://www.tensorflow.org/js) that uses [BodyPix version 2](https://github.com/tensorflow/tfjs-models/tree/master/body-pix). To see this branch, use: 
+
+`git checkout v2`
+
 ### CURRENT STATUS: HACK / WORK IN PROGRESS
 
 Demo: https://i3games.github.io/dont-touch-men/
@@ -69,6 +74,12 @@ Uses the following libraries / frameworks / tools
 * ml5.js: https://github.com/ml5js/ml5-library
 * body-pix model: https://github.com/tensorflow/tfjs-models/tree/master/body-pix
 * brfx: https://www.bfxr.net/
+
+v2 uses the following libraries / frameworks / tools
+
+* tensorflowjs: https://www.tensorflow.org/js
+* body-pix model: https://github.com/tensorflow/tfjs-models/tree/master/body-pix
+* test image from https://github.com/tensorflow/tfjs-models/tree/master/body-pix
 
 Similar tools 
 
