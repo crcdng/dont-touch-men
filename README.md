@@ -4,6 +4,11 @@
 
 Alert people before they are touching MEN (Mouth Eyes Nose).
 
+### NEW BRANCH
+I have started working on an alternative branch **v2** with no dependencies except for [TensorFlow.js](https://www.tensorflow.org/js) that uses [BodyPix version 2](https://github.com/tensorflow/tfjs-models/tree/master/body-pix). To see this branch, use: 
+
+`git checkout v2`
+
 ### CURRENT STATUS: HACK / WORK IN PROGRESS
 
 Demo: https://i3games.github.io/dont-touch-men/
