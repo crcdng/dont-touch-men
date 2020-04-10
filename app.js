@@ -1,4 +1,5 @@
-/* global bodyPix, requestAnimationFrame */
+/* global AudioContext, bodyPix, requestAnimationFrame */
+const DEBUG = true;
 
 const canvas = document.getElementById('output');
 const ctx = canvas.getContext('2d');
@@ -6,12 +7,21 @@ const videoEl = document.getElementById('video');
 
 let soundAlarm = true;
 let visualAlarm = true;
-let performance = "medium";
+let performance = 'medium';
 let showView = true;
 
 // face: 110, 64, 170
 // hands: 255, 0, 0
 // others: 64, 64, 64
+
+const mediaConfig = {
+  audio: false, video: { width: 320, height: 240, facingMode: 'user' }
+};
+const config = {
+  flipHorizontal: true,
+  internalResolution: 'medium',
+  segmentationThreshold: 0.7
+};
 
 const colors = [
   [110, 64, 170],
@@ -46,14 +56,17 @@ async function setup () {
   net = await bodyPix.load();
   camera = await getVideo();
   camera.play();
-  
+
   const performanceRadioEls = document.querySelectorAll('input[name="performance"]');
   for (let i = 0; i < performanceRadioEls.length; i++) {
     const p = performanceRadioEls[i];
     if (p.hasAttribute('checked')) {
       performance = p.value;
     }
-    p.addEventListener('change', (event) => { performance = event.target.value; });
+    p.addEventListener('change', (event) => {
+      performance = event.target.value;
+      config.internalResolution = performance;
+    });
   }
 
   const visualAlarmCheckBoxEl = document.getElementById('visualalarm');
@@ -66,27 +79,57 @@ async function setup () {
 
   const viewCheckBoxEl = document.getElementById('segmentationview');
   viewCheckBoxEl.checked = showView;
-  viewCheckBoxEl.addEventListener('change', (event) => { showView = event.target.checked; });
+  viewCheckBoxEl.addEventListener('change', (event) => {
+    const checked = event.target.checked;
+    showView = checked;
+    canvas.style.visibility = (event.target.checked ? 'visible' : 'hidden');
+  });
 
   loop();
 }
 
 async function loop () {
-  const segmentation = await net.segmentPersonParts(camera);
-  // const multiPersonPartSegmentation = await estimatePartSegmentation();
+  const segmentation = await net.segmentPersonParts(camera, config);
+  // console.log(segmentation.width, segmentation.height);
+
   const coloredPartImageData = bodyPix.toColoredPartMask(segmentation);
   if (showView) { bodyPix.drawMask(canvas, camera, coloredPartImageData); }
   // console.log(segmentation);
   requestAnimationFrame(loop);
 }
 
+function buzz () {
+  const context = new AudioContext();
+  const o = context.createOscillator();
+  const g = context.createGain();
+  g.gain.exponentialRampToValueAtTime(0.00001, context.currentTime + 3);
+  o.type = 'sawtooth';
+  o.frequency.value = 87.31;
+  o.connect(g);
+  g.connect(context.destination);
+  o.start(0);
+}
+
+function alarm () {
+  if (visualAlarm) {
+    ctx.fillStyle = 'red';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
+  if (soundAlarm) {
+    buzz();
+  }
+  if (DEBUG) {
+    console.log('alarm');
+  }
+}
+
 async function getVideo () {
-  const stream = await navigator.mediaDevices.getUserMedia({ audio: false, video: true });
+  const stream = await navigator.mediaDevices.getUserMedia(mediaConfig);
   videoEl.srcObject = stream;
   return new Promise((resolve) => {
     videoEl.onloadeddata = (event) => {
-      videoEl.width = videoEl.videoWidth / 2;
-      videoEl.height = videoEl.videoHeight / 2;
+      videoEl.width = videoEl.videoWidth;
+      videoEl.height = videoEl.videoHeight;
       resolve(videoEl);
     };
   });
@@ -96,5 +139,7 @@ navigator.getUserMedia =
   navigator.getUserMedia ||
   navigator.webkitGetUserMedia ||
   navigator.mozGetUserMedia;
+
+window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
 setup();
