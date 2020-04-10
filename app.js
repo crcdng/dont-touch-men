@@ -10,13 +10,10 @@ let visualAlarm = true;
 let performance = 'medium';
 let showView = true;
 
-// face: 110, 64, 170
-// hands: 255, 0, 0
-// others: 64, 64, 64
-
 const mediaConfig = {
   audio: false, video: { width: 320, height: 240, facingMode: 'user' }
 };
+
 const config = {
   flipHorizontal: true,
   internalResolution: 'medium',
@@ -24,30 +21,12 @@ const config = {
 };
 
 const colors = [
-  [110, 64, 170],
-  [110, 64, 170],
-  [110, 64, 170],
-  [210, 62, 167],
-  [238, 67, 149],
-  [255, 78, 125],
-  [255, 94, 99],
-  [255, 115, 75],
-  [255, 140, 56],
-  [239, 167, 47],
-  [217, 194, 49],
-  [194, 219, 64],
-  [175, 240, 91],
-  [135, 245, 87],
-  [96, 247, 96],
-  [64, 243, 115],
-  [40, 234, 141],
-  [28, 219, 169],
-  [26, 199, 194],
-  [33, 176, 213],
-  [47, 150, 224],
-  [65, 125, 224],
-  [84, 101, 214],
-  [99, 81, 195]
+  [110, 64, 170], [110, 64, 170], [64, 64, 64], [64, 64, 64],
+  [64, 64, 64], [64, 64, 64], [64, 64, 64], [64, 64, 64],
+  [64, 64, 64], [64, 64, 64], [2255, 0, 0], [255, 0, 0],
+  [64, 64, 64], [64, 64, 64], [64, 64, 64], [64, 64, 64],
+  [64, 64, 64], [64, 64, 64], [64, 64, 64], [64, 64, 64],
+  [64, 64, 64], [64, 64, 64], [64, 64, 64], [64, 64, 64]
 ];
 
 let net, camera;
@@ -90,11 +69,56 @@ async function setup () {
 
 async function loop () {
   const segmentation = await net.segmentPersonParts(camera, config);
-  // console.log(segmentation.width, segmentation.height);
 
-  const coloredPartImageData = bodyPix.toColoredPartMask(segmentation);
+  // values see https://github.com/tensorflow/tfjs-models/tree/master/body-pix#person-body-part-segmentation
+  const leftHandId = 10;
+  const rightHandId = 11;
+  const leftFaceId = 0;
+  const rightFaceId = 1;
+
+  function isHand (pixel) {
+    return pixel == leftHandId || pixel == rightHandId; // == on purpose
+  }
+
+  function isFace (pixel) {
+    return pixel == leftFaceId || pixel == rightFaceId; // == on purpose
+  }
+
+  const coloredPartImageData = bodyPix.toColoredPartMask(segmentation, colors);
   if (showView) { bodyPix.drawMask(canvas, camera, coloredPartImageData); }
-  // console.log(segmentation);
+
+  const current = segmentation.data;
+  const w = segmentation.width;
+  const radius = 5;
+  for (const [i, v] of current.entries()) {
+    if (isHand(v)) {
+      // crude but quick
+      const left = current[i - radius];
+      const right = current[i + radius];
+      const top = current[i - radius * w]; // TODO, see BUG above
+      const bottom = current[i + radius * w]; // TODO, see BUG above
+
+      const topleft = current[i - radius * w - radius];
+      const topright = current[i - radius * w + radius];
+      const bottomleft = current[i + radius * w - radius];
+      const bottomright = current[i + radius * w + radius];
+
+      if (
+        (left && isFace(left)) ||
+        (right && isFace(right)) ||
+        (top && isFace(top)) ||
+        (bottom && isFace(bottom)) ||
+        (topleft && isFace(topleft)) ||
+        (topright && isFace(topright)) ||
+        (bottomleft && isFace(bottomleft)) ||
+        (bottomright && isFace(bottomright))
+      ) {
+        alarm();
+        break;
+      }
+    }
+  }
+  
   requestAnimationFrame(loop);
 }
 
