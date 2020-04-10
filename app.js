@@ -1,8 +1,13 @@
-/* global requestAnimationFrame */
+/* global bodyPix, requestAnimationFrame */
 
 const canvas = document.getElementById('output');
 const ctx = canvas.getContext('2d');
 const videoEl = document.getElementById('video');
+
+let soundAlarm = true;
+let visualAlarm = true;
+let performance = "medium";
+let showView = true;
 
 // face: 110, 64, 170
 // hands: 255, 0, 0
@@ -10,8 +15,8 @@ const videoEl = document.getElementById('video');
 
 const colors = [
   [110, 64, 170],
-  [143, 61, 178],
-  [178, 60, 178],
+  [110, 64, 170],
+  [110, 64, 170],
   [210, 62, 167],
   [238, 67, 149],
   [255, 78, 125],
@@ -41,6 +46,28 @@ async function setup () {
   net = await bodyPix.load();
   camera = await getVideo();
   camera.play();
+  
+  const performanceRadioEls = document.querySelectorAll('input[name="performance"]');
+  for (let i = 0; i < performanceRadioEls.length; i++) {
+    const p = performanceRadioEls[i];
+    if (p.hasAttribute('checked')) {
+      performance = p.value;
+    }
+    p.addEventListener('change', (event) => { performance = event.target.value; });
+  }
+
+  const visualAlarmCheckBoxEl = document.getElementById('visualalarm');
+  visualAlarmCheckBoxEl.checked = visualAlarm;
+  visualAlarmCheckBoxEl.addEventListener('change', (event) => { visualAlarm = event.target.checked; });
+
+  const soundAlarmCheckBoxEl = document.getElementById('soundalarm');
+  soundAlarmCheckBoxEl.checked = soundAlarm;
+  soundAlarmCheckBoxEl.addEventListener('change', (event) => { soundAlarm = event.target.checked; });
+
+  const viewCheckBoxEl = document.getElementById('segmentationview');
+  viewCheckBoxEl.checked = showView;
+  viewCheckBoxEl.addEventListener('change', (event) => { showView = event.target.checked; });
+
   loop();
 }
 
@@ -48,8 +75,7 @@ async function loop () {
   const segmentation = await net.segmentPersonParts(camera);
   // const multiPersonPartSegmentation = await estimatePartSegmentation();
   const coloredPartImageData = bodyPix.toColoredPartMask(segmentation);
-  bodyPix.drawMask(
-    canvas, camera, coloredPartImageData);
+  if (showView) { bodyPix.drawMask(canvas, camera, coloredPartImageData); }
   // console.log(segmentation);
   requestAnimationFrame(loop);
 }
