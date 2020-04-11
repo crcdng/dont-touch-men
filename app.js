@@ -2,7 +2,6 @@
 const DEBUG = true;
 
 const canvas = document.getElementById('output');
-const ctx = canvas.getContext('2d');
 const videoEl = document.getElementById('video');
 
 let soundAlarm = true;
@@ -118,7 +117,7 @@ async function loop () {
       }
     }
   }
-  
+
   requestAnimationFrame(loop);
 }
 
@@ -134,10 +133,22 @@ function buzz () {
   o.start(0);
 }
 
+function visual (c) {
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = 'red';
+  ctx.fillRect(0, 0, c.width, c.height);
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle'; 
+  ctx.fillStyle = 'white';
+  ctx.font = 'bold 50px Arial';
+  ctx.fillText('DON\'T', c.width / 2, c.height / 4); 
+  ctx.fillText('TOUCH', c.width / 2, c.height / 2); 
+  ctx.fillText('MEN', c.width / 2, 3 * c.height / 4); 
+}
+
 function alarm () {
   if (visualAlarm) {
-    ctx.fillStyle = 'red';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    visual(canvas);
   }
   if (soundAlarm) {
     buzz();
@@ -166,4 +177,4 @@ navigator.getUserMedia =
 
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
-setup();
+window.onload = setup;

@@ -4,12 +4,7 @@
 
 Alert people before they are touching MEN (Mouth Eyes Nose).
 
-### NEW BRANCH
-I have started working on an alternative branch **v2** with no dependencies except for [TensorFlow.js](https://www.tensorflow.org/js) that uses [BodyPix version 2](https://github.com/tensorflow/tfjs-models/tree/master/body-pix). To see this branch, use: 
-
-`git checkout v2`
-
-### CURRENT STATUS: HACK / WORK IN PROGRESS
+### CURRENT STATUS: ITERATION 2 / WORK IN PROGRESS
 
 Demo: https://i3games.github.io/dont-touch-men/
 
@@ -25,7 +20,7 @@ In the current COVID-19 pandemic, a few rules have been communicated to reduce i
 8. Don't hoard.
 9. Be excellent to each other.
 
-Over the last couple of days, during videoconferences and on social media I have seen people constantly touching their faces. It happens subconsciously. Even if you tell people not to do it they will have their hand in their face a minute later. And so will you. This way the virus gets on a mucous membrane of yours and enters your body. 
+Over the last weeks, during videoconferences and on social media I have seen people constantly touching their faces. It happens subconsciously. Even if you tell people not to do it they will have their hand in their face a minute later. And so will you. This way the virus gets on a mucous membrane of yours and enters your body. 
 
 Science has numbers: 
 "On average, each of the 26 observed students touched their face 23 times per hour. Of all face touches, 44% (1,024/2,346) involved contact with a mucous membrane."
@@ -52,32 +47,31 @@ Also, do not **touch** your face in order to test this app.
 ### WORK IN PROGRESS
 ![](assets/screen.jpg)
 
-How it works: **Don’t touch MEN** uses the Tensorflow bodypix model. This is a trained machine learning model that takes an image, detects different body parts such as head and hands and returns an array with different values for each part. I take a sample around hand values and check if it is a head value. If so, the alarm is triggered.
+How it works: **Don’t touch MEN** uses the Tensorflow bodypix model version 2. This is a trained machine learning model that takes an image, detects different body parts such as head and hands and returns an array with different values for each part. I take a sample around hand values and check if it is a head value. If so, the alarm is triggered.
 
-Problems that I am currently seeing: 
+### THIS IS ITERATION 2
+
+With the first prototype I saw a number of problems: 
 
 * False Positives especially when turning my face.
 * False Negatives especially briefly after an alarm. 
 * Delays through poor performance. 
 * Does not work on iPad/Safari 
 
-To do:
+I rewrote the appin pure JS without dependencies except for [TensorFlow.js](https://www.tensorflow.org/js), using [BodyPix version 2](https://github.com/tensorflow/tfjs-models/tree/master/body-pix). 
 
-1. Improve the reliability and performance of the app. Also the crude detection has room for improvement
-2. Test and improve on different devices, in different conditions, with different people 
-3. Build standalone apps
-4. Reimplement in pure JS/Tensorflow with body-pix 2.0 https://github.com/tensorflow/tfjs-models/tree/master/body-pix
+This has improved the reliability and performance significantly. I am still experimenting with various parameters. The app needs testing on different devices, in different conditions, with different people. 
 
-v2 uses the following libraries / frameworks / tools
+Iteration 2 uses the following libraries / frameworks / tools
 
 * tensorflowjs: https://www.tensorflow.org/js
-* body-pix model: https://github.com/tensorflow/tfjs-models/tree/master/body-pix
+* body-pix model version 2: https://github.com/tensorflow/tfjs-models/tree/master/body-pix
 
-v1 Uses the following libraries / frameworks / tools
+Iteration 1 was built with the following libraries / frameworks / tools
 
 * p5.js: https://github.com/processing/p5.js
 * ml5.js: https://github.com/ml5js/ml5-library
-* body-pix model: https://github.com/tensorflow/tfjs-models/tree/master/body-pix
+* body-pix model version 1: https://www.npmjs.com/package/@tensorflow-models/body-pix/v/1.1.2
 
 Similar tools 
 
