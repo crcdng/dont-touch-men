@@ -1,4 +1,4 @@
-/* global AudioContext, bodyPix, requestAnimationFrame */
+/* global bodyPix, requestAnimationFrame, Tone */
 const DEBUG = true;
 
 const canvas = document.getElementById('output');
@@ -129,12 +129,12 @@ function visual (c) {
   ctx.fillStyle = 'red';
   ctx.fillRect(0, 0, c.width, c.height);
   ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle'; 
+  ctx.textBaseline = 'middle';
   ctx.fillStyle = 'white';
   ctx.font = 'bold 50px Arial';
-  ctx.fillText('DON\'T', c.width / 2, c.height / 4); 
-  ctx.fillText('TOUCH', c.width / 2, c.height / 2); 
-  ctx.fillText('MEN', c.width / 2, 3 * c.height / 4); 
+  ctx.fillText('DON\'T', c.width / 2, c.height / 4);
+  ctx.fillText('TOUCH', c.width / 2, c.height / 2);
+  ctx.fillText('MEN', c.width / 2, 3 * c.height / 4);
 }
 
 function alarm () {
@@ -165,7 +165,5 @@ navigator.getUserMedia =
   navigator.getUserMedia ||
   navigator.webkitGetUserMedia ||
   navigator.mozGetUserMedia;
-
-window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
 window.onload = setup;
