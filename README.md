@@ -58,7 +58,7 @@ With the first prototype I saw a number of problems:
 * Delays through poor performance. 
 * Does not work on iPad/Safari 
 
-I rewrote the appin pure JS without dependencies except for [TensorFlow.js](https://www.tensorflow.org/js), using [BodyPix version 2](https://github.com/tensorflow/tfjs-models/tree/master/body-pix). 
+I rewrote the app with [TensorFlow.js](https://www.tensorflow.org/js), using [BodyPix version 2](https://github.com/tensorflow/tfjs-models/tree/master/body-pix)and [Tone.js](https://tonejs.github.io/). 
 
 This has improved the reliability and performance significantly. I am still experimenting with various parameters. The app needs testing on different devices, in different conditions, with different people. 
 
@@ -66,6 +66,7 @@ Iteration 2 uses the following libraries / frameworks / tools
 
 * tensorflowjs: https://www.tensorflow.org/js
 * body-pix model version 2: https://github.com/tensorflow/tfjs-models/tree/master/body-pix
+* Tone.js: https://tonejs.github.io/
 
 Iteration 1 was built with the following libraries / frameworks / tools
 

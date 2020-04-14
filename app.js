@@ -4,11 +4,6 @@ const DEBUG = true;
 const canvas = document.getElementById('output');
 const videoEl = document.getElementById('video');
 
-let soundAlarm = true;
-let visualAlarm = true;
-let performance = 'medium';
-let showView = true;
-
 const mediaConfig = {
   audio: false, video: { width: 320, height: 240, facingMode: 'user' }
 };
@@ -28,13 +23,17 @@ const colors = [
   [64, 64, 64], [64, 64, 64], [64, 64, 64], [64, 64, 64]
 ];
 
-let net, camera;
+let soundAlarm = true;
+let visualAlarm = true;
+let performance = 'medium';
+let showView = true;
+let net, camera, synth;
 
 async function setup () {
   net = await bodyPix.load();
   camera = await getVideo();
   camera.play();
-
+  synth = new Tone.Synth().toMaster();
   const performanceRadioEls = document.querySelectorAll('input[name="performance"]');
   for (let i = 0; i < performanceRadioEls.length; i++) {
     const p = performanceRadioEls[i];
@@ -122,15 +121,7 @@ async function loop () {
 }
 
 function buzz () {
-  const context = new AudioContext();
-  const o = context.createOscillator();
-  const g = context.createGain();
-  g.gain.exponentialRampToValueAtTime(0.00001, context.currentTime + 3);
-  o.type = 'sawtooth';
-  o.frequency.value = 87.31;
-  o.connect(g);
-  g.connect(context.destination);
-  o.start(0);
+  synth.triggerAttackRelease('D3', '8n');
 }
 
 function visual (c) {
