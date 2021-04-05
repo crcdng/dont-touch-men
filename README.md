@@ -15,10 +15,11 @@ In the current COVID-19 pandemic, a few rules have been communicated to reduce i
 3. **Don’t touch MEN: Mouth Eyes Nose**.
 4. Wash hands with soap.
 5. Wash surfaces with soap water. 
-6. Wear face masks if you have them and if supply is guaranteed for health and frontline workers. Yes, they help.
+6. Wear masks, officially required in many places. (2021 update. In spring 2020 I wrote: "Wear face masks if you have them and if supply is guaranteed for health and frontline workers. Yes, they help.")
 7. Protect elderly people and those wo are at risk.
 8. Don't hoard.
 9. Be excellent to each other.
+10. Get tested, get vacciated. (2021 update)
 
 Over the last weeks, during videoconferences and on social media I have seen people constantly touching their faces. It happens subconsciously. Even if you tell people not to do it they will have their hand in their face a minute later. And so will you. This way the virus gets on a mucous membrane of yours and enters your body. 
 
