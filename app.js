@@ -61,7 +61,8 @@ async function setup () {
     showView = checked;
     canvas.style.visibility = (event.target.checked ? 'visible' : 'hidden');
   });
-
+  
+  setTimeout(sayIt(), 2000);
   loop();
 }
 
@@ -147,6 +148,19 @@ function alarm () {
   if (DEBUG) {
     console.log('alarm');
   }
+}
+
+function sayIt(){
+  console.log("Saying")
+  let speech = new SpeechSynthesisUtterance();
+  speech.lang = "en-US";
+  
+  speech.text = "Please don't touch your face";
+  speech.volume = 1;
+  speech.rate = 1;
+  speech.pitch = 1;
+  
+  window.speechSynthesis.speak(speech);
 }
 
 async function getVideo () {
